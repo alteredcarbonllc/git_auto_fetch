@@ -1,7 +1,0 @@
-[Unit]
-Description=Git Auto Push Service
-
-[Service]
-ExecStart=/usr/local/bin/git_auto_push.sh
-Restart=no
-User=root
