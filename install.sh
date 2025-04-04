@@ -60,8 +60,13 @@ for var in $(echo "$NEW_ENV_VARS" | grep ^COPY_); do
     fi
 
     echo "Copying $file_name to $dest_path..."
-    cp "$script_path" "${BIN_PATH}/$(basename "$script_path")"
-    
+    cp "$file_name" "${target_file}"
+    chown root:root "${target_file}"
+
+    if [[ "$file_name" == *.sh ]]; then
+        chmod +x "${target_file}"
+    fi
+
     # If the file ends with .timer, add it to the list
     if [[ "$file_name" == *.timer ]]; then
         TIMER_FILES+=("$file_name")
