@@ -1,12 +1,7 @@
-# /etc/systemd/system/git_auto_fetch.service
 [Unit]
-Description=Fetch updates for all local git repositories
+Description=Legacy git_auto_fetch (explicit opt-in)
+Wants=network-online.target
 After=network-online.target
-
 [Service]
 Type=oneshot
 ExecStart=/usr/local/bin/git_auto_fetch.sh
-Restart=no
-
-[Install]
-WantedBy=multi-user.target

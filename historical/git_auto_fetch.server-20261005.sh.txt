@@ -1,0 +1,31 @@
+#!/bin/bash
+set -euo pipefail
+
+CONFIG_FILE="/etc/git_auto_fetch.conf"
+
+if [[ ! -f "$CONFIG_FILE" ]]; then
+  echo "ERROR: config $CONFIG_FILE not found"
+  exit 1
+fi
+
+fail=0
+
+while IFS= read -r repo_dir; do
+  # skip empty lines & comments
+  [[ -z "$repo_dir" || "${repo_dir:0:1}" == "#" ]] && continue
+
+  if [[ ! -d "$repo_dir/.git" ]]; then
+    echo "SKIP: $repo_dir is not a git repo (missing .git)"
+    continue
+  fi
+
+  echo "Fetching: $repo_dir"
+  if ! ( cd "$repo_dir" && git fetch --prune --all --tags ); then
+    echo "ERROR: fetch failed for $repo_dir"
+    fail=1
+  else
+    echo "OK: $repo_dir"
+  fi
+done < "$CONFIG_FILE"
+
+exit "$fail"

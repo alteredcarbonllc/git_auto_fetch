@@ -1,12 +1,8 @@
-# /etc/systemd/system/git_fetc_all.timer
 [Unit]
-Description=Run git fetch for all repositories hourly
-
+Description=Legacy git_auto_fetch schedule (disabled by default)
 [Timer]
-OnBootSec=10min
-OnUnitActiveSec=1h
+OnCalendar=hourly
 Persistent=true
 Unit=git_auto_fetch.service
-
 [Install]
 WantedBy=timers.target
